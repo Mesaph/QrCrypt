@@ -88,7 +88,7 @@ class QrCrypt {
         $this->mask = $mask;
 
         $this->gpg = new gnupg();
-        $this->gnupg_setsignmode(GNUPG_SIG_MODE_CLEAR);
+        $this->gpg->gnupg_setsignmode(GNUPG_SIG_MODE_CLEAR);
 
         $this->qrCode = new QrCode();
     }
