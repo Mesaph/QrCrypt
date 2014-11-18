@@ -1,0 +1,29 @@
+{
+    "name": "tart/qrcrypt",
+    "description": "This package allows the creation of QR-Codes which can be encrypted and/or signed via gpg.",
+    "require": {
+        "endroid/qrcode": "~1.3",
+        "ext-gnupg": "*"
+    },
+    "authors": [
+        {
+            "name": "Anuschka Clasen",
+            "email": "clasen@cs.uni-bonn.de"
+        },
+        {
+            "name": "Thomas Maqua",
+            "email": "maqua@cs.uni-bonn.de"
+        },
+        {
+            "name": "Rene Neff",
+            "email": "neff@cs.uni-bonn.de"
+        },
+        {
+            "name": "Thomas Trimborn",
+            "email": "trimborn@cs.uni-bonn.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Tart\\": "src/"}
+    }
+}
