@@ -7,6 +7,7 @@
 namespace Tart\QrCrypt;
 
 use Endroid\QrCode\QrCode;
+use gnupg;
 
 /**
  * Class QrCrypt
