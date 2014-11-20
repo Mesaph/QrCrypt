@@ -109,7 +109,7 @@ class QrCrypt {
         if(!is_dir($this->directory)) {
             throw new FileSystemException('directory does not exist');
         }
-        if(!in_array($filename, ['png', 'gif', 'jpeg', 'wbmp'])) {
+        if(!in_array($filetype, ['png', 'gif', 'jpeg', 'wbmp'])) {
             throw new \InvalidArgumentException('unknown filetype');
         }
 
