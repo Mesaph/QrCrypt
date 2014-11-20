@@ -155,13 +155,13 @@ class QrCrypt {
     private function encode() {
         $maskString = $this->mask->toString();
         if($this->encrypted && $this->signed) {
-            $mode = 's';
+            $mode = 'x';
             $maskString = $this->stripgpg($this->gpg->encryptsign($maskString));
         } elseif($this->encrypted) {
             $mode = 'e';
             $maskString = $this->stripgpg($this->gpg->encrypt($maskString));
         } elseif($this->signed) {
-            $mode = 'x';
+            $mode = 's';
             $maskString = $this->stripgpg($this->gpg->sign($maskString));
         } else {
             $mode = 'n';
