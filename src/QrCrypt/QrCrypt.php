@@ -8,6 +8,8 @@ namespace Tart\QrCrypt;
 
 use Endroid\QrCode\QrCode;
 use gnupg;
+use Tart\QrCrypt\Exceptions\FileSystemException;
+use Tart\QrCrypt\Exceptions\MissingInformationException;
 
 /**
  * Class QrCrypt
@@ -101,7 +103,33 @@ class QrCrypt {
      * @return string The filename of the generated image relative to the set directory.
      */
     public function save($filetype = 'png', $filename = null) {
-        //TODO: invoke display and save it
+        if(is_null($this->directory)) {
+            throw new MissingInformationException('directory is not set');
+        }
+        if(!is_dir($this->directory)) {
+            throw new FileSystemException('directory does not exist');
+        }
+        if(!in_array($filename, ['png', 'gif', 'jpeg', 'wbmp'])) {
+            throw new \InvalidArgumentException('unknown filetype');
+        }
+
+        $image = $this->display($filetype);
+
+        if(is_null($filename)) {
+            $filename = md5($image) . '.' . $filetype;
+
+            $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            while (file_exists($this->directory . DIRECTORY_SEPARATOR . $filename)) {
+                $filename = $characters[mt_rand(0, strlen($characters) - 1)] . $filename;
+            }
+        } else {
+            if(file_exists($this->directory . DIRECTORY_SEPARATOR . $filename)) {
+                throw new FileSystemException('file already exists');
+            }
+        }
+
+        file_put_contents($this->directory . DIRECTORY_SEPARATOR . $filename, $image);
+
         return $filename;
     }
 

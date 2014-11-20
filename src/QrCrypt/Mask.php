@@ -21,7 +21,6 @@ interface Mask {
      * __toString() to allow for exceptions to be thrown from
      * this method.
      *
-     * @throws SerializationException
      * @return string
      */
     public function toString();

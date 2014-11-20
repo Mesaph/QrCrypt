@@ -7,6 +7,6 @@
 namespace Tart\QrCrypt\Exceptions;
 
 
-class MissingInformationException extends \Exception {
+class FileSystemException extends \Exception {
 
 } 
