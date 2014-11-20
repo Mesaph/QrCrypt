@@ -68,7 +68,7 @@ class QrCrypt {
      * This string will be prepended to all qr-codes
      * @var string
      */
-    private $magic = 'QCR:';
+    private $magic = 'QCR';
 
     /**
      * This is the GnuPG instance
@@ -155,14 +155,30 @@ class QrCrypt {
     private function encode() {
         $maskString = $this->mask->toString();
         if($this->encrypted && $this->signed) {
-            $maskString = $this->gpg->encryptsign($maskString);
+            $mode = 's';
+            $maskString = $this->stripgpg($this->gpg->encryptsign($maskString));
         } elseif($this->encrypted) {
-            $maskString = $this->gpg->encrypt($maskString);
+            $mode = 's';
+            $maskString = $this->stripgpg($this->gpg->encrypt($maskString));
         } elseif($this->signed) {
-            $maskString = $this->gpg->sign($maskString);
+            $mode = 's';
+            $maskString = $this->stripgpg($this->gpg->sign($maskString));
+        } else {
+            $mode = 'n';
         }
 
-        return $this->magic . $this->mask->getId() . $maskString;
+        return $this->magic . ':' . $this->mask->getId() . ' :' . $mode . ':' . $maskString;
+    }
+
+    /**
+     * Strips the GPG header and footer from a string to save space
+     * @param string $string
+     * @return string
+     */
+    private function stripgpg($string) {
+        $header = "-----BEGIN PGP MESSAGE-----\nVersion: GnuPG v1\n\n";
+        $footer = "\n-----END PGP MESSAGE-----";
+        return preg_replace('#^' . $header . '(.*)' . $footer . '$#s', '$1', $string);
     }
 
     /**

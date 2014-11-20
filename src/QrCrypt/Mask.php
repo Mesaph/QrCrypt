@@ -26,8 +26,9 @@ interface Mask {
     public function toString();
 
     /**
-     * Returns the unique identifier for this mask. This identifier has to be exactly 5 characters long.
-     * This method should return an unique identifier that is only used for this mask.
+     * Returns the unique identifier for this mask.
+     * This method should return an unique identifier that is only used for this mask. It can be up to 5 characters long
+     * and must not contain a colon.
      * @return string
      */
     public function getId();
