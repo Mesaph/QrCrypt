@@ -158,16 +158,16 @@ class QrCrypt {
             $mode = 's';
             $maskString = $this->stripgpg($this->gpg->encryptsign($maskString));
         } elseif($this->encrypted) {
-            $mode = 's';
+            $mode = 'e';
             $maskString = $this->stripgpg($this->gpg->encrypt($maskString));
         } elseif($this->signed) {
-            $mode = 's';
+            $mode = 'x';
             $maskString = $this->stripgpg($this->gpg->sign($maskString));
         } else {
             $mode = 'n';
         }
 
-        return $this->magic . ':' . $this->mask->getId() . ' :' . $mode . ':' . $maskString;
+        return $this->magic . ':' . $this->mask->getId() . ':' . $mode . ':' . $maskString;
     }
 
     /**
