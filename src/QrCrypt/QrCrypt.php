@@ -42,16 +42,16 @@ class QrCrypt {
     private $mask;
 
     /**
-     * The maximum qr-code version that should be used.
+     * The minimum qr-code version that should be used.
      * @var int
      */
-    private $maxVersion;
+    private $minVersion;
 
     /**
-     * The minimal error correction level that should be used.
+     * The error correction level that should be used.
      * @var string
      */
-    private $minErrorCorrection;
+    private $errorCorrection;
 
     /**
      * This array maps the error correction levels of the Endroid\QrCode\QrCode class to the commonly used characters.
@@ -140,8 +140,8 @@ class QrCrypt {
      */
     public function display($filetype = 'png') {
         $this->qrCode->setText($this->encode());
-        $this->qrCode->setVersion($this->maxVersion); //TODO: determine whether a smaller version would suffice
-        $this->qrCode->setErrorCorrection($this->minErrorCorrection); //TODO: determine whether a better error correction would be possible
+        $this->qrCode->setVersion($this->minVersion);
+        $this->qrCode->setErrorCorrection($this->errorCorrection);
 
         return $this->qrCode->get($filetype);
     }
@@ -232,30 +232,30 @@ class QrCrypt {
     /**
      * @return int
      */
-    public function getMaxVersion()
+    public function getMinVersion()
     {
-        return $this->maxVersion;
+        return $this->minVersion;
     }
 
     /**
      * @param $maxVersion
      */
-    public function setMaxVersion($maxVersion)
+    public function setMinVersion($maxVersion)
     {
         $maxVersion = (int) $maxVersion;
 
         if($maxVersion != -1 && $maxVersion < 1 && $maxVersion > 40)
             throw new \InvalidArgumentException();
 
-        $this->maxVersion = $maxVersion;
+        $this->minVersion = $maxVersion;
     }
 
     /**
      * @return string
      */
-    public function getMinErrorCorrection()
+    public function getErrorCorrection()
     {
-        return $this->errorCorrectionMap[$this->minErrorCorrection];
+        return $this->errorCorrectionMap[$this->errorCorrection];
     }
 
     /**
@@ -263,13 +263,13 @@ class QrCrypt {
      * This sets the minimum error correction level that should be used.
      * @param int|string $minErrorCorrection
      */
-    public function setMinErrorCorrection($minErrorCorrection)
+    public function setErrorCorrection($minErrorCorrection)
     {
         if(is_string($minErrorCorrection)) {
             $key = array_search($minErrorCorrection, $this->errorCorrectionMap);
 
             if($key !== false) {
-                $this->minErrorCorrection = $key;
+                $this->errorCorrection = $key;
                 return;
             }
         }
