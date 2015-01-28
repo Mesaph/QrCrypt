@@ -42,6 +42,12 @@ class QrCrypt {
     private $mask;
 
     /**
+     * Whether the contents should be deflated before they are put into the qr code
+     * @var boolean
+     */
+    private $pack = true;
+
+    /**
      * The minimum qr-code version that should be used.
      * @var int
      */
@@ -167,7 +173,13 @@ class QrCrypt {
             $mode = 'n';
         }
 
-        return $this->magic . ':' . $this->mask->getId() . ':' . $mode . ':' . $maskString;
+        $string = $this->magic . ':' . $this->mask->getId() . ':' . $mode . ':' . $maskString;
+
+        if($this->pack) {
+            $string = gzdeflate($string);
+        }
+
+        return $string;
     }
 
     /**
@@ -195,6 +207,22 @@ class QrCrypt {
     public function setEncrypted($encrypted)
     {
         $this->encrypted = $encrypted;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPacked()
+    {
+        return $this->pack;
+    }
+
+    /**
+     * @param boolean $encrypted
+     */
+    public function setPacked($pack)
+    {
+        $this->pack = $pack;
     }
 
     /**
