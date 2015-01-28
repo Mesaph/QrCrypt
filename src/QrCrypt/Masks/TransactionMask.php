@@ -75,14 +75,8 @@ class TransactionMask implements Mask {
      */
     public function toString()
     {
-        $required = [   $this->at01,
-                        $this->at02,
-                        $this->at04,
-                        $this->at05,
-                        $this->at07,
-                        $this->at20,
-                        $this->at21,
-                        $this->at44];
+        $required = [$this->at04];
+
         foreach($required as $value) {
             if(is_null($value)) {
                 throw new MissingInformationException();
@@ -91,13 +85,43 @@ class TransactionMask implements Mask {
 
         $values = [];
 
-        array_push($values, $this->at01);
-        array_push($values, $this->at02);
+        if(!is_null($this->at01)) {
+            array_push($values, $this->at01);
+        } else {
+            array_push($values, '');
+        }
+
+        if(!is_null($this->at02)) {
+            array_push($values, $this->at02);
+        } else {
+            array_push($values, '');
+        }
+
         array_push($values, pack('P', $this->at04));
-        array_push($values, $this->at05);
-        array_push($values, pack('V', $this->at07->getTimestamp()));
-        array_push($values, $this->at20);
-        array_push($values, $this->at21);
+
+        if(!is_null($this->at05)) {
+            array_push($values, $this->at05);
+        } else {
+            array_push($values, '');
+        }
+
+        if(!is_null($this->at07)) {
+            array_push($values, pack('V', $this->at07->getTimestamp()));
+        } else {
+            array_push($values, '');
+        }
+
+        if(!is_null($this->at20)) {
+            array_push($values, $this->at20);
+        } else {
+            array_push($values, '');
+        }
+
+        if(!is_null($this->at21)) {
+            array_push($values, $this->at21);
+        } else {
+            array_push($values, '');
+        }
 
         if(!is_null($this->at42)) {
             array_push($values, pack('V', $this->at42->getTimestamp()));
@@ -105,7 +129,11 @@ class TransactionMask implements Mask {
             array_push($values, '');
         }
 
-        array_push($values, $this->at44);
+        if(!is_null($this->at42)) {
+            array_push($values, $this->at44);
+        } else {
+            array_push($values, '');
+        }
 
         return implode(self::SEPARATOR, $values);
 
