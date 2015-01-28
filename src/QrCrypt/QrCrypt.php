@@ -173,11 +173,13 @@ class QrCrypt {
             $mode = 'n';
         }
 
-        $string = $this->magic . ':' . $this->mask->getId() . ':' . $mode . ':' . $maskString;
+        $string = $this->mask->getId() . ':' . $mode . ':' . $maskString;
 
         if($this->pack) {
             $string = gzdeflate($string);
         }
+
+        $string = $this->magic . ':' . $string;
 
         return $string;
     }
