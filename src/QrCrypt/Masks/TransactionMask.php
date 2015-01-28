@@ -221,7 +221,7 @@ class TransactionMask implements Mask {
     public function isValidIban($iban) {
         if(!is_string($iban)) return false;
 
-        if(!preg_match('^[0-9a-zA-Z]{4,34}$', $iban)) return false;
+        if(!preg_match('#^[0-9a-zA-Z]{4,34}$#', $iban)) return false;
 
         return true;
     }
