@@ -69,6 +69,12 @@ class TransactionMask implements Mask {
     private $at44 = null;
 
     /**
+     * A Transaction authentication number
+     * @var int
+     */
+    private $tan = null;
+
+    /**
      * Parses the available Information into a string that can be encoded into a Qr-Code
      * @return string
      * @throws MissingInformationException
@@ -131,6 +137,12 @@ class TransactionMask implements Mask {
 
         if(!is_null($this->at42)) {
             array_push($values, $this->at44);
+        } else {
+            array_push($values, '');
+        }
+
+        if(!is_null($this->tan)) {
+            array_push($values, $this->tan);
         } else {
             array_push($values, '');
         }
@@ -234,6 +246,15 @@ class TransactionMask implements Mask {
                     $this->at44 = $value;
                     break;
 
+                case 'tan':
+
+                    if(!$this->isValidTan($value)) {
+                        throw new \InvalidArgumentException($value . ' is not a valid tan.');
+                    }
+
+                    $this->tan = $value;
+                    break;
+
                 default:
                     throw new \InvalidArgumentException('Could not interpret options key [\'' . $key . '\'].');
 
@@ -250,6 +271,19 @@ class TransactionMask implements Mask {
         if(!is_string($iban)) return false;
 
         if(!preg_match('#^[0-9a-zA-Z]{4,34}$#', $iban)) return false;
+
+        return true;
+    }
+
+    /**
+     * Tests whether the specified Tan is valid
+     * @param string $tan
+     * @return bool
+     */
+    public function isValidTan($tan) {
+        $tan = (string) $tan;
+
+        if(!preg_match('#^[0-9a-zA-Z]{1,10}$#', $tan)) return false;
 
         return true;
     }
