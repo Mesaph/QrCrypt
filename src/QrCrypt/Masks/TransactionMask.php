@@ -135,7 +135,7 @@ class TransactionMask implements Mask {
             array_push($values, '');
         }
 
-        if(!is_null($this->at42)) {
+        if(!is_null($this->at44)) {
             array_push($values, $this->at44);
         } else {
             array_push($values, '');
