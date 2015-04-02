@@ -103,7 +103,7 @@ class TransactionMask implements Mask {
             array_push($values, '');
         }
 
-        array_push($values, pack('P', $this->at04));
+        array_push($values,$this->at04);
 
         if(!is_null($this->at05)) {
             array_push($values, $this->at05);
@@ -112,7 +112,7 @@ class TransactionMask implements Mask {
         }
 
         if(!is_null($this->at07)) {
-            array_push($values, pack('V', $this->at07->getTimestamp()));
+            array_push($values, $this->at07->getTimestamp());
         } else {
             array_push($values, '');
         }
@@ -130,7 +130,7 @@ class TransactionMask implements Mask {
         }
 
         if(!is_null($this->at42)) {
-            array_push($values, pack('V', $this->at42->getTimestamp()));
+            array_push($values, $this->at42->getTimestamp());
         } else {
             array_push($values, '');
         }
